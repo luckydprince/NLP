@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Word Embedding Search</title>
+</head>
+<body>
+    <h2>Search Similar Context</h2>
+
+    <form method="POST">
+        <input type="text" name="query" placeholder="Enter a word" required>
+        <button type="submit">Search</button>
+    </form>
+
+    {% if query %}
+        <h3>Query: "{{ query }}"</h3>
+
+        {% if results %}
+            <ul>
+                {% for word, score in results %}
+                    <li>{{ word }} (score: {{ "%.4f"|format(score) }})</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No results found.</p>
+        {% endif %}
+    {% endif %}
+</body>
+</html>
