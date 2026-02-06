@@ -51,3 +51,54 @@ The experimental results indicate that additive attention outperformed general a
 In this assignment, a Filipino–English neural machine translation system was implemented using an LSTM-based encoder–decoder architecture. Two attention mechanisms—general attention and additive attention—were evaluated under controlled experimental conditions. The results showed that additive attention achieved better translation performance, as measured by BLEU score, reinforcing its effectiveness in neural machine translation tasks.
 
 <br>Overall, this work demonstrates the importance of attention mechanisms in improving translation quality and highlights the practical differences between general and additive attention in sequence-to-sequence models.
+
+<h2> Task 3: Evaluation and Verification</h2>
+
+<h4>Performance Comparison</h4>
+
+| Attention Type | Training Loss | Training PPL | Validation Loss | Validation PPL |
+|---------------|--------------|--------------|----------------|----------------|
+| General Attention | 2.890800 | 18.007704 | 2.629544 | 13.867448 |
+| Additive Attention | 2.478727 | 11.926078 | 2.130462 | 8.418754 |
+
+Additive attention consistently outperformed general attention across all evaluation metrics.
+
+
+<h4>Training Loss Curve</h4>
+<img width="575" height="455" alt="image" src="https://github.com/user-attachments/assets/4905348a-6ca5-4e44-b258-7b6e49fcc027" />
+
+
+<h4>Attention Map Visualization</h4>
+<img width="632" height="393" alt="image" src="https://github.com/user-attachments/assets/fb3395e9-6482-4f52-b039-8ea640c523fb" />
+
+
+<h4>Discussion</h4>
+Additive attention consistently achieved lower loss and perplexity,
+indicating improved alignment modeling. Attention maps show clearer
+token-to-token focus compared to general attention.
+
+<h4>Performance Comparison</h4>
+
+The performance of general and additive attention mechanisms was evaluated
+using training loss, validation loss, and perplexity (PPL). Additive
+attention achieved lower loss and perplexity values in both training and
+validation phases.
+
+This indicates that additive attention provides better alignment modeling
+between source and target sequences. The lower validation loss and PPL
+also suggest improved generalization compared to general attention.
+
+<h4>Analysis and Discussion</h4>
+
+The experimental results demonstrate that additive attention is more
+effective than general attention for Filipino–English translation. Additive
+attention consistently achieved lower training and validation loss, as well
+as lower perplexity, indicating more accurate and confident predictions.
+
+The improved performance can be attributed to the non-linear scoring
+function used in additive attention, which allows richer modeling of
+source–target interactions. In contrast, general attention relies on a
+simpler dot-product formulation, which may limit expressiveness in
+low-resource or complex translation settings.
+
+
