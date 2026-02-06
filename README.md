@@ -7,7 +7,7 @@ Screenshots and videos for the Assignment 2 was uploaded to Google drive due to 
 <h1>A3: Make Your Own Machine Translation Language</h1> 
 <br>Neural Machine Translation Using LSTM with Attention
 <br>
-<h2>Task 1</h2>
+<h2>Task 1 and Task 2</h2>
 <br>Language Pair: Filipino → English
 
 <h3>1. Dataset Selection and Source</h3>
