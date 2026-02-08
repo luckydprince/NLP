@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Machine Translation</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Translate</h1>
+
+    <label>Filipino</label>
+    <textarea id="source"></textarea>
+
+    <button class="btn-primary" onclick="runTranslation()">Translate</button>
+    <br><br>
+    <label>English</label>
+    <textarea id="target" readonly></textarea>
+  </div>
+<hr>
+
+<p class="footer-text">
+  Neural Machine Translation (Filipino → English) using an LSTM-based
+  encoder–decoder architecture with additive attention.
+</p>
+<p class="footer-text copyright">
+  © 2026 Michael Lacar. All rights reserved.
+</p>
+
+<script>
+function runTranslation() {
+  fetch("/translate", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({text: document.getElementById("source").value})
+  })
+  .then(res => res.json())
+  .then(data => document.getElementById("target").value = data.translation);
+}
+</script>
+
+</body>
+</html>
