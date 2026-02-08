@@ -101,4 +101,38 @@ source–target interactions. In contrast, general attention relies on a
 simpler dot-product formulation, which may limit expressiveness in
 low-resource or complex translation settings.
 
+<h2>Task 4: Machine Translation Web Application</h2>
+
+https://github.com/user-attachments/assets/137c64d7-32b6-4bd6-97c8-64ade74d1b91
+
+A simple web-based machine translation application was developed to
+demonstrate the deployment of the trained Filipino–English neural machine
+translation model. The application allows users to input a sentence in
+Filipino and generates the corresponding English translation.
+
+The frontend of the application was implemented using HTML, CSS, and
+JavaScript, providing a user-friendly interface with input and output
+text areas. The backend was implemented using Python Flask, which serves
+as an interface between the web client and the trained neural machine
+translation model.
+
+The translation model is based on an LSTM encoder–decoder architecture
+with additive (Bahdanau) attention, which was selected based on its
+superior performance compared to general attention in Tasks 2 and 3.
+During inference, beam search decoding was applied to improve translation
+stability and reduce repetitive outputs without retraining the model.
+
+Upon user submission, the input text is sent to the Flask backend via an
+HTTP POST request. The backend processes the input using the trained model
+and returns the translated sentence, which is then displayed in the web
+interface. While the generated translations may not always be fluent or
+accurate, this behavior is expected due to limited training data,
+restricted training epochs, and the use of a lightweight LSTM-based
+architecture.
+
+Overall, the web application demonstrates an end-to-end machine
+translation pipeline, from user interaction to neural model inference,
+highlighting the practical deployment of a neural machine translation
+system.
+
 
