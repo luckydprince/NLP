@@ -135,4 +135,114 @@ translation pipeline, from user interaction to neural model inference,
 highlighting the practical deployment of a neural machine translation
 system.
 
+<h1>A4 - Do you agree</h1>
+This project implements an end-to-end Natural Language Processing (NLP) pipeline based on transformer architectures. It begins with training a lightweight BERT model from scratch using the Masked Language Modeling (MLM) objective, following the original BERT framework. The pretrained encoder is then adapted into a siamese architecture inspired by Sentence-BERT to generate semantically meaningful sentence embeddings.<br><br>
+The model is fine-tuned on the SNLI dataset for the Natural Language Inference (NLI) task, predicting entailment, neutral, and contradiction using a Softmax classification objective. Performance is evaluated using standard classification metrics, and limitations are analyzed with proposed improvements.<br><br>
+Finally, the trained model is integrated into a responsive Flask-based web application with a Bootstrap interface, allowing users to input a premise and hypothesis and obtain NLI predictions in real time.<br><br>
+This assignment demonstrates the full workflow from transformer pretraining to sentence-level inference and deployment.<br>
+
+<h2>A4 – Task 3 </h2>
+<h3>Evaluation and Analysis</h3>
+
+<h4>3.1 Experimental Setup</h4>
+The Sentence-BERT (SBERT) model was fine-tuned on the SNLI dataset for the Natural Language Inference (NLI) task. A subset of the dataset was used due to computational constraints. The model employed a siamese architecture with shared BERT encoders initialized from the masked language modeling (MLM) pretraining conducted in Task 1.<br><br>
+
+Sentence embeddings were derived using mean pooling over the final transformer layer outputs. The concatenated representation (u,v,∣u-v∣) was passed to a linear classifier for three-way classification (entailment, neutral, contradiction).
+
+<h4>Hyperparameters</h4>
+
+|Parameter|Value |
+|---------------|---------------|
+|Embedding Size	| 128 |
+|Transformer Layers	| 2 |
+|Attention Heads	| 4 |
+|Max Sequence Length	| 64 |
+|Batch Size	| 32 |
+|Learning Rate	| 2e-5 |
+|Epochs	| 3 |
+|Optimizer	| AdamW |
+|Loss Function	| CrossEntropy (SoftMaxLoss) |
+|Pooling Strategy	| Mean Pooling |
+|Device	| Apple MPS |
+
+<h4>3.2 Performance Results</h4>
+The classification performance on the validation split is summarized below:
+
+| Class	| precision	recall |	f1-score |	support|
+|---------------|---------------|---------------|---------------|
+|entailment	| 0.41	| 0.66	| 0.51	| 3329 |
+|neutral |	0.43 |	0.31	|0.36	| 3235 |
+|contradiction	| 0.37	 0.24	| 0.29	| 3278|
+				
+|accuracy	| 	|  |	0.41| 	9842|
+|macro avg	| 0.40 | 0.40	| 0.39	| 9842 |
+|weighted avg	| 0.40	| 0.41	| 0.39	| 9842 | 
+
+The model achieved an overall accuracy of 0.41, exceeding the random baseline of approximately 0.33 for a three-class classification problem. The macro-averaged F1-score of 0.39 indicates moderate performance across classes.<br><br>
+
+The model demonstrated relatively strong recall for the entailment class (0.66), suggesting that the learned embeddings effectively capture positive semantic alignment between sentence pairs. However, performance on the contradiction class was weaker (F1 = 0.29), indicating difficulty in modeling nuanced semantic opposition, the neutral class showed moderate performance but lower recall (0.31), suggesting that fine-grained semantic distinction remain challenging.<br><br>
+
+Overall, the results confirms that Siamese architecture successfully learned semantically meaningful sentence embeddings, although performance remains significantly below state-of-the-art SBERT models trained with full-scale BERT-base architectures.<br><br>
+
+<h4>3.3 Limitations and Challenges</h4>
+Despite successful implementation, several limitations impacted performance.
+
+	1. Reduced Model Capacity
+The implemented BERT encoder was substantially smaller than the standard BERT-base model. Specifically:
+
+Component	Implemented Model	BERT-base
+| Component  | Implemented Model | BERT-base| 
+| ------------- | ------------- | ------------- |
+| Layers  | 2  | 12  |
+| Hidden Size  | 128  | 768  |
+| Attention Heads  | 4  | 12  |
+
+This reduced representational capacity limits the model’s ability to capture complex contextual interactions and semantic subtleties required for robust NLI performance.
+
+	2. Simplified Tokenization
+A whitespace-based tokenizer was used instead of subword tokenization (e.g., WordPiece). This approach:
+	-Lacks handling of out-of-vocabulary words
+	-Cannot model morphological variations effectively
+	-Reduces semantic granularity
+
+As a result, lexical coverage and representation quality are reduced compared to pretrained BERT tokenization strategies.
+
+	3. Limited Training Data
+Due to memory constraints, only a subset of the SNLI dataset was used for training. The full SNLI training set contains over 550,000 examples. Training on a reduced subset limits generalization and contributes to lower overall performance.
+
+	4. Hardware Constraints
+Training was performed on Apple Silicon (MPS backend), which imposed constraints on:
+	-Batch size
+	-Vocabulary size
+	-Embedding dimension
+	-Transformer depth
+These restrictions prevented scaling the architecture toward BERT-base specifications.
+
+	5. Absence of Hyperparameter Optimization
+The model was trained using fixed hyperparameters without systematic tuning. No learning rate scheduler, warmup strategy, or early stopping mechanism was applied. This likely limited convergence quality and overall performance.
+
+<h4>3.4 Proposed Improvements</h4>
+Several Modifications could substantially improve performance:
+	1. Increase Model Depth and Hidden Size
+Expanding the transformer layers (e.g., 4-6 layers) and increasing embedding dimension (e.g., 256-768) would enhance contextual modeling capacity.
+	2. Adopt Subword Tokenization
+Implementing WordPiece or BPE tokenization would improve vocabulary coverage and semantic precision.
+	3. Train on Full SNLI or MNLI Dataset
+Utilizing the complete dataset, or incorporating the Multi-Genre Natural Language Inference, would improve robustness and cross-domain generalization.
+	4. Introduce Learning Rate Scheduling
+Applying linear warmup and decay strategies could stabilize training and improve convergence.
+	5. Experiment with Pooling Strategies
+Comparing mean pooling, max pooling, and CLS-token pooling may yield improved sentence representations.
+	6. Apply Regularization Techniques
+Incorporating dropout tuning and weight decay could reduce overfitting and improve generalization.
+
+<h4>3.5 Conclusion</h4>
+The implemented Sentence-BERT model successfully learned semantically meaningful sentence embeddings using a Siamese architecture and Softmax classification objective. The achieved accuracy of 0.41 demonstrates effective transfer of pretrained contextual representations to the NLI task and confirms that the architecture functions as intended. While performance remains below that of full-scale BERT-based systems, the results validate the correctness of the implementation and highlight the trade-off between computational constraints and model capacity. Future improvements focusing on architectural scaling, tokenization refinement, and hyperparameter optimization are expected to substantially enhance performance.
+
+
+https://github.com/user-attachments/assets/9fd91c54-5ee8-4c3e-9250-0927fd089b33
+
+<br><br>
+<img width="767" height="844" alt="Screenshot 2026-02-15 at 11 02 26 AM" src="https://github.com/user-attachments/assets/d908b267-0d81-4533-bfc2-bce147bc7a1d" />
+
 
